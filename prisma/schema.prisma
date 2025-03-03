@@ -1,0 +1,88 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             Int       @id @default(autoincrement())
+  name           String
+  email          String    @unique
+  hashPassword   String
+  type           String
+  created_at     DateTime  @default(now())
+  updated_at     DateTime  @updatedAt
+}
+
+model ClientSupplier {
+  id             Int       @id @default(autoincrement())
+  name           String
+  email          String
+  phone          String
+  type           String
+  address        String
+  created_at     DateTime  @default(now())
+  updated_at     DateTime  @updatedAt
+  interactions   Interaction[]
+}
+
+model Interaction {
+  id                  Int       @id @default(autoincrement())
+  name                String
+  email               String
+  phone               String
+  type                String
+  address             String
+  created_at          DateTime  @default(now())
+  updated_at          DateTime  @updatedAt
+  clientSupplier      ClientSupplier @relation(fields: [clientSupplierId], references: [id])
+  clientSupplierId    Int
+}
+
+model Product {
+  id             Int       @id @default(autoincrement())
+  name           String
+  created_at     DateTime  @default(now())
+  updated_at     DateTime  @updatedAt
+  movements      MovementStock[]
+}
+
+model Task {
+  id             Int       @id @default(autoincrement())
+  title          String
+  description    String
+  responsible_id Int
+  start_date     DateTime
+  end_date       DateTime
+  status         String
+}
+
+model FinancialTransaction {
+  id             Int       @id @default(autoincrement())
+  type           String
+  description    String
+  value          Float
+  date_transition DateTime
+}
+
+model MovementStock {
+  id             Int       @id @default(autoincrement())
+  product_id     Int
+  product        Product   @relation(fields: [product_id], references: [id])
+  type_moviment  String
+  qtd            Int
+  date_moviment  DateTime
+}
+
+model Category {
+  id             Int       @id @default(autoincrement())
+  name           String
+  description    String
+  value          Float
+  category       String
+  created_at     DateTime  @default(now())
+  updated_at     DateTime  @updatedAt
+}
