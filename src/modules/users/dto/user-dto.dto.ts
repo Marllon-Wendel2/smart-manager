@@ -4,10 +4,10 @@ import { z } from 'zod';
 export const CreateUserDto = z.object({
   name: z.string().min(1, { message: 'Name is required' }),
   email: z.string().email({ message: 'Invalid email address' }),
-  hashPassword: z
+  password: z
     .string()
     .min(6, { message: 'Password must be at least 6 characters long' }),
-  type: z.string().min(1, { message: 'Type is required' }),
+  type: z.string().min(1, { message: 'Type is required' }).optional(),
 });
 
 export type CreateUserDto = z.infer<typeof CreateUserDto>;
