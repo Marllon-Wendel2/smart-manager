@@ -44,6 +44,7 @@ model Interaction {
 model Product {
   id             Int       @id @default(autoincrement())
   name           String
+  value          Int
   created_at     DateTime  @default(now())
   updated_at     DateTime  @updatedAt
   movements      MovementStock[]
