@@ -8,7 +8,7 @@ import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './common/guards/auth.guard';
 import { JwtModule } from '@nestjs/jwt';
-import { InteractionModule } from './interaction/interaction.module';
+import { InteractionModule } from './modules/interaction/interaction.module';
 
 @Module({
   imports: [

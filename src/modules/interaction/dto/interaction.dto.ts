@@ -6,8 +6,7 @@ export const InteractionDto = z.object({
   email: z.string().email({ message: 'Invalid email address' }),
   phone: z.string().min(10, { message: 'Phone number is required' }),
   type: z.string().min(1, { message: 'Type is required' }),
-  address: z.string().min(1, { message: 'Address is required' }),
-  clientSupplierId: z
+  clientSupplierId: z.coerce
     .number()
     .int({ message: 'clientSupplierId must be an integer' }),
 });

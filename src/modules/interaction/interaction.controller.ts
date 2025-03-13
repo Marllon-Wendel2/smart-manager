@@ -8,38 +8,41 @@ import {
   Delete,
 } from '@nestjs/common';
 import { InteractionService } from './interaction.service';
-import { CreateInteractionDto } from './dto/interaction.dto';
-import { UpdateInteractionDto } from './dto/update-interaction.dto';
+import {
+  InteractionDto,
+  InteractionPipe,
+  UpdateInteractionDto,
+} from './dto/interaction.dto';
 
 @Controller('interaction')
 export class InteractionController {
   constructor(private readonly interactionService: InteractionService) {}
 
   @Post()
-  create(@Body() createInteractionDto: CreateInteractionDto) {
-    return this.interactionService.create(createInteractionDto);
+  registerInteraction(@Body(InteractionPipe) interactionDto: InteractionDto) {
+    return this.interactionService.registerInteraction(interactionDto);
   }
 
   @Get()
-  findAll() {
-    return this.interactionService.findAll();
+  getAllInteraction() {
+    return this.interactionService.getAllInteraction();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.interactionService.findOne(+id);
+  findInterectionById(@Param('id') id: string) {
+    return this.interactionService.findInterectionById(+id);
   }
 
   @Patch(':id')
-  update(
+  updateInteraction(
     @Param('id') id: string,
     @Body() updateInteractionDto: UpdateInteractionDto,
   ) {
-    return this.interactionService.update(+id, updateInteractionDto);
+    return this.interactionService.updateInteraction(+id, updateInteractionDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.interactionService.remove(+id);
+  deleteInteractionById(@Param('id') id: string) {
+    return this.interactionService.deleteInteractionById(+id);
   }
 }

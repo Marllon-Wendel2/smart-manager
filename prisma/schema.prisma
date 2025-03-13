@@ -35,7 +35,6 @@ model Interaction {
   email               String
   phone               String
   type                String
-  address             String
   created_at          DateTime  @default(now())
   updated_at          DateTime  @updatedAt
   clientSupplier      ClientSupplier @relation(fields: [clientSupplierId], references: [id])

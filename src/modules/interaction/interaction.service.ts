@@ -1,26 +1,67 @@
 import { Injectable } from '@nestjs/common';
-import { CreateInteractionDto } from './dto/interaction.dto';
-import { UpdateInteractionDto } from './dto/update-interaction.dto';
+import { InteractionDto, UpdateInteractionDto } from './dto/interaction.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class InteractionService {
-  create(createInteractionDto: CreateInteractionDto) {
-    return 'This action adds a new interaction';
+  constructor(private readonly primasService: PrismaService) {}
+
+  async registerInteraction(interactionDto: InteractionDto) {
+    const data = {
+      name: interactionDto.name,
+      email: interactionDto.email,
+      phone: interactionDto.phone,
+      type: interactionDto.type,
+      clientSupplierId: interactionDto.clientSupplierId,
+      created_at: new Date(),
+    };
+    return await this.primasService.interaction.create({ data });
   }
 
-  findAll() {
-    return `This action returns all interaction`;
+  async getAllInteraction() {
+    const result = await this.primasService.interaction.findMany();
+
+    if (result.length <= 0) {
+      throw new Error('Não foi encontrado nenhuma interação');
+    }
+
+    return result;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} interaction`;
+  async findInterectionById(id: number) {
+    const result = await this.primasService.interaction.findFirst({
+      where: { id },
+    });
   }
 
-  update(id: number, updateInteractionDto: UpdateInteractionDto) {
-    return `This action updates a #${id} interaction`;
+  async getAllInteractionByClientId(clientId: number) {
+    const result = await this.primasService.interaction.findMany({
+      where: { clientSupplierId: clientId },
+    });
+
+    if (result.length <= 0) {
+      throw new Error('Não foi encontrado nenhuma interação');
+    }
+
+    return result;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} interaction`;
+  async updateInteraction(
+    id: number,
+    updateInteractionDto: UpdateInteractionDto,
+  ) {
+    const data = {
+      name: updateInteractionDto.name,
+      email: updateInteractionDto.email,
+      phone: updateInteractionDto.phone,
+      type: updateInteractionDto.type,
+      clientSupplierId: updateInteractionDto.clientSupplierId,
+      updated_at: new Date(),
+    };
+    return await this.primasService.interaction.update({ where: { id }, data });
+  }
+
+  async deleteInteractionById(id: number) {
+    await this.primasService.interaction.delete({ where: { id } });
   }
 }
