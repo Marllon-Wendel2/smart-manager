@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateStockDto, UpdateStockDto } from './dto/stock.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { ERROR_MESSAGE } from 'src/utils/erros/erros-messages';
 
 @Injectable()
 export class StockService {
@@ -16,13 +17,17 @@ export class StockService {
 
     try {
       await this.prismaService.movementStock.create({ data });
-    } catch (error) {}
+    } catch (error) {
+      throw new InternalServerErrorException(ERROR_MESSAGE.ERROR_INTERNAL);
+    }
   }
 
   async findAllMoviment() {
     try {
       return await this.prismaService.movementStock.findMany();
-    } catch (error) {}
+    } catch (error) {
+      throw new InternalServerErrorException(ERROR_MESSAGE.ERROR_INTERNAL);
+    }
   }
 
   async findMovimentByProductId(productId: number) {
@@ -30,7 +35,16 @@ export class StockService {
       const result = await this.prismaService.movementStock.findMany({
         where: { product_id: productId },
       });
-    } catch (error) {}
+
+      if (result.length === 0) {
+        throw new Error(ERROR_MESSAGE.NOT_FOUND_EXCEPCTION);
+      }
+
+      return result;
+    } catch (error) {
+      console.error(error);
+      throw new InternalServerErrorException(ERROR_MESSAGE.ERROR_INTERNAL);
+    }
   }
 
   // update(id: number, updateStockDto: UpdateStockDto) {

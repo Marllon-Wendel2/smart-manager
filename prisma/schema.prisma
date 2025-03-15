@@ -17,13 +17,12 @@ model User {
   updated_at     DateTime  @updatedAt
 }
 
-model ClientSupplier {
+model Supplier {
   id             Int       @id @default(autoincrement())
   name           String
   email          String
   phone          String
   type           String
-  address        String
   created_at     DateTime  @default(now())
   updated_at     DateTime  @updatedAt
   interactions   Interaction[]
@@ -37,14 +36,15 @@ model Interaction {
   type                String
   created_at          DateTime  @default(now())
   updated_at          DateTime  @updatedAt
-  clientSupplier      ClientSupplier @relation(fields: [clientSupplierId], references: [id])
+  clientSupplier      Supplier @relation(fields: [clientSupplierId], references: [id])
   clientSupplierId    Int
 }
 
 model Product {
   id             Int       @id @default(autoincrement())
   name           String
-  value          Int
+  value          Decimal
+  qtd            Int
   created_at     DateTime  @default(now())
   updated_at     DateTime  @updatedAt
   movements      MovementStock[]
