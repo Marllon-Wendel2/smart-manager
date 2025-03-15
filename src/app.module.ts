@@ -9,7 +9,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './common/guards/auth.guard';
 import { JwtModule } from '@nestjs/jwt';
 import { InteractionModule } from './modules/interaction/interaction.module';
-import { ProductsModule } from './products/products.module';
+import { ProductsModule } from './modules/products/products.module';
 import { StockModule } from './modules/stock/stock.module';
 
 @Module({
