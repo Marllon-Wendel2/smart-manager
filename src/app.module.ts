@@ -10,6 +10,7 @@ import { AuthGuard } from './common/guards/auth.guard';
 import { JwtModule } from '@nestjs/jwt';
 import { InteractionModule } from './modules/interaction/interaction.module';
 import { ProductsModule } from './products/products.module';
+import { StockModule } from './modules/stock/stock.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { ProductsModule } from './products/products.module';
     }),
     InteractionModule,
     ProductsModule,
+    StockModule,
   ],
   controllers: [AppController],
   providers: [AppService, { provide: APP_GUARD, useClass: AuthGuard }],
